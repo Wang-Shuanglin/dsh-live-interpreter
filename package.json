@@ -1,7 +1,7 @@
 {
   "name": "dsh-live-interpreter",
-  "version": "0.5.1",
-  "description": "Live speech interpretation inside the DSH Web GUI: stream the microphone, a loopback (Stereo Mix / virtual cable) device for the computer's own audio, or both, transcribe Chinese/English as it is spoken, translate continuously into the other language while the two columns stay row-aligned, and keep every meeting as a reusable project with exports.",
+  "version": "0.5.2",
+  "description": "Live speech interpretation inside the DSH Web GUI: stream the microphone, the computer's own audio via a WASAPI loopback helper, or both mixed, transcribe Chinese/English as it is spoken, translate continuously into the other language while the two columns stay row-aligned, and keep every meeting as a reusable project with exports.",
   "type": "module",
   "main": "lib/index.js",
   "icon": "./icon.svg",
@@ -14,6 +14,7 @@
   },
   "files": [
     "lib",
+    "assets",
     "cordis.patch.yml",
     "locale",
     "docs",
