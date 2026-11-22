@@ -1,0 +1,71 @@
+{
+  "name": "dsh-live-interpreter",
+  "version": "0.5.0",
+  "description": "Live speech interpretation inside the DSH Web GUI: stream the microphone, a loopback (Stereo Mix / virtual cable) device for the computer's own audio, or both, transcribe Chinese/English as it is spoken, translate continuously into the other language while the two columns stay row-aligned, and keep every meeting as a reusable project with exports.",
+  "type": "module",
+  "main": "lib/index.js",
+  "icon": "./icon.svg",
+  "exports": {
+    ".": "./lib/index.js",
+    "./client": "./lib/client.js",
+    "./locale/*.json": "./locale/*.json",
+    "./icon": "./icon.svg",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib",
+    "cordis.patch.yml",
+    "locale",
+    "docs",
+    "test",
+    "icon.svg",
+    "README.md",
+    "LICENSE"
+  ],
+  "keywords": [
+    "dsh-plugin",
+    "interpreter",
+    "simultaneous-interpretation",
+    "speech-to-text",
+    "streaming-asr",
+    "translation",
+    "meeting-notes"
+  ],
+  "author": "dsh-live-interpreter contributors",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Wang-Shuanglin/dsh-live-interpreter.git"
+  },
+  "homepage": "https://github.com/Wang-Shuanglin/dsh-live-interpreter#readme",
+  "bugs": {
+    "url": "https://github.com/Wang-Shuanglin/dsh-live-interpreter/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "dependencies": {
+    "sherpa-onnx-node": "1.13.8"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "inject": [
+        "@deepseek-ai/dsh-client-store",
+        "@deepseek-ai/dsh-api-remotes",
+        "@deepseek-ai/dsh-api-session-controller",
+        "@deepseek-ai/dsh-client-connection",
+        "@deepseek-ai/dsh-client-ui-conversation",
+        "@deepseek-ai/dsh-client-ui-renderer",
+        "@deepseek-ai/dsh-client-ui-settings",
+        "@deepseek-ai/dsh-client-ui-tool"
+      ],
+      "platform": "web"
+    }
+  }
+}
