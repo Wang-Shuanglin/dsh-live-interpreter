@@ -1,0 +1,7 @@
+{
+  "meta": {
+    "title": "Live interpreter",
+    "description": "Bidirectional Chinese/English simultaneous interpretation: the source transcript settles word by word on the left while the translation is rewritten into written style per paragraph on the right; four recognizers to choose from, read-aloud routed to a picked output device, and meeting minutes or bilingual records you can export afterwards.",
+    "detail": "docs/DETAIL.md"
+  }
+}
