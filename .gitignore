@@ -1,0 +1,23 @@
+# Dependencies
+node_modules/
+
+# Downloaded model weights (large, downloaded on first use)
+models/
+
+# Runtime data (meeting projects, synthesized speech, exports)
+# Lives under $DSH_HOME/dsh-live-interpreter/, not here, but ignore a local copy
+# if it ever appears.
+dsh-live-interpreter/
+*.part
+
+# Logs, temp, scratch
+logs/
+*.log
+_tmp/
+tmp/
+
+# OS / editor noise
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
