@@ -1,6 +1,6 @@
 # dsh-live-interpreter
 
-Simultaneous Chinese/English interpretation as a DSH Web bundle: streaming microphone audio, a loopback device (Stereo Mix / virtual cable) for the computer's own output, or both mixed, local sherpa-onnx recognition, continuous translation through the DSH model channel, and a row-aligned two-column panel with a project history and exports.
+Simultaneous Chinese/English interpretation as a DSH Web bundle: streaming microphone audio, the computer's own output captured via a WASAPI loopback helper, or both mixed, local sherpa-onnx recognition, continuous translation through the DSH model channel, and a row-aligned two-column panel with a project history and exports.
 
 ![The live interpreter panel](docs/preview.svg)
 
@@ -54,7 +54,8 @@ After installation the bundle is active on the next page load. It adds:
 | `lib/index.js` (session) | `finalizeSegment` runs three passes over a finished paragraph: local SenseVoice re-hearing, then a DSH transcript repair, then translation. The repair may only reword: its result must contain the original's characters in both directions or it is discarded. |
 | `lib/vad.js` | Local speech/silence classifier (Silero VAD, ~0.6 MB). When installed it decides per frame whether the audio is speech, which lets the paragraph boundary fall on a real pause instead of an energy threshold that fan and USB self-noise keep above the noise floor. Missing or failing, it degrades silently to the energy threshold. |
 | `lib/models.js` | Recognizer, refinement, VAD, and voice catalog plus the resumable downloader (`hf-mirror.com`, then Hugging Face, with per-entry direct `url` support for GitHub releases), with separate `asr`, `refine`, `vad`, and `tts` trees. |
-| `lib/client.js` | Client half: the panel, the settings card, the sidebar icon, the AudioWorklet PCM tap (with a ScriptProcessor fallback), the resampler, the paragraph reader, and the **Settings ▾** drawer holding the recognizer / input / output selectors and the self-check buttons. It also owns capture: microphone, a loopback recording device (Stereo Mix / a virtual cable) for system audio, or both mixed into one graph. The transcript renders as a single scrolling grid of rows, each row holding the source cell and the target cell side by side, so a long translation and a short original share one row height and never drift apart. |
+| `lib/client.js` | Client half: the panel, the settings card, the sidebar icon, the AudioWorklet PCM tap (with a ScriptProcessor fallback), the resampler, the paragraph reader, and the **Settings ▾** drawer holding the recognizer / input / output selectors and the self-check buttons. It captures the microphone (and the microphone half of "mix"). System audio is captured on the host by the WASAPI loopback helper, not in the browser, so it follows the default playback device instead of depending on Stereo Mix. The transcript renders as a single scrolling grid of rows, each row holding the source cell and the target cell side by side, so a long translation and a short original share one row height and never drift apart. |
+| `assets/wasapi-capture.py` | System-audio helper (Python + soundcard): hooks the default playback device via WASAPI loopback and streams 16 kHz mono PCM16LE to stdout. The host spawns it for a system or mixed source; if `soundcard`/`numpy` are missing the host auto-runs `pip install soundcard numpy` once and retries (Python 3 itself must already be installed). |
 
 Audio never leaves the machine: the client downsamples to 16 kHz mono PCM, posts 240 ms frames to the host, and the recognizer runs in-process. Only recognized text reaches the model channel, and only when translating. Spoken translation is synthesized locally too; nothing calls a cloud speech service.
 
@@ -100,7 +101,7 @@ node test/smoke.mjs          # no model, no network
 node test/translate-smoke.mjs # needs a running DSH web instance
 ```
 
-`files` in `package.json` whitelists `lib`, `cordis.patch.yml`, `locale`, `docs`, `test`, `icon.svg`, `README.md`, and `LICENSE` — model weights, runtime meeting data, and `node_modules` are always excluded. `package.json` reads `repository`/`homepage`/`bugs` from a `your-username` placeholder; replace it with the real GitHub owner before publishing.
+`files` in `package.json` whitelists `lib`, `assets`, `cordis.patch.yml`, `locale`, `docs`, `test`, `icon.svg`, `README.md`, and `LICENSE` — model weights, runtime meeting data, and `node_modules` are always excluded. `package.json` reads `repository`/`homepage`/`bugs` from a `your-username` placeholder; replace it with the real GitHub owner before publishing.
 
 ## License
 
