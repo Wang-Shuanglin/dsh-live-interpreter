@@ -1,0 +1,7 @@
+# dsh-live-interpreter bundle: one row inserts the whole plugin.
+# The host half (this package's "." export) serves HTTP routes on the DSH web
+# server; the browser half ("./client") registers the interpreter panel, the
+# sidebar entry and the settings card.
+- insert:
+    - id: live-interpreter
+      name: dsh-live-interpreter
